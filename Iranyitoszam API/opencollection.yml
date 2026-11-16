@@ -1,0 +1,26 @@
+opencollection: 1.0.0
+
+info:
+  name: Iranyitoszam API
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+request:
+  auth:
+    type: bearer
+    token: '"1|hRgVfuxVOz0EDNp9ktV1ZsrTXtIu2LgLQU20LNx75d3bfb8f'
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

@@ -1,0 +1,7 @@
+{
+  "name": "Irányítószámok REST API",
+  "version": "1.0.0",
+  "description": "Laravel Sanctum alapú REST API megyék és települések kezelésére",
+  "title": "Irányítószámok API Dokumentáció",
+  "url": "http://127.0.0.1:8000/api"
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Irányítószámok REST API - Dokumentáció</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; display: flex; background: #f8fafc; color: #1e293b; }
+    nav { width: 260px; background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 24px 16px; position: fixed; }
+    nav h2 { font-size: 1.1rem; margin-top: 0; color: #38bdf8; }
+    nav ul { list-style: none; padding: 0; }
+    nav li { margin: 10px 0; }
+    nav a { color: #cbd5e1; text-decoration: none; font-size: 0.95rem; }
+    nav a:hover { color: #ffffff; }
+    main { margin-left: 292px; padding: 32px; max-width: 900px; width: 100%; }
+    h1 { margin-top: 0; }
+    .base-url { background: #e2e8f0; padding: 10px 14px; border-radius: 6px; font-family: monospace; margin-bottom: 28px; }
+    section { margin-bottom: 40px; }
+    .endpoint { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .ep-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .method { padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; color: #fff; }
+    .get { background: #16a34a; }
+    .post { background: #2563eb; }
+    .put { background: #d97706; }
+    .delete { background: #dc2626; }
+    .path { font-family: monospace; font-size: 1.05rem; font-weight: 600; }
+    .auth-badge { background: #fef3c7; color: #92400e; border: 1px solid #f59e0b; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-left: auto; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e2e8f0; }
+    th { background: #f1f5f9; }
+    pre { background: #1e293b; color: #e2e8f0; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <h2>Irányítószámok API v1.0.0</h2>
+    <ul>
+      <li><a href="#auth">Hitelesítés (Auth)</a></li>
+      <li><a href="#counties">Megyék (Counties)</a></li>
+      <li><a href="#cities">Települések (Cities)</a></li>
+    </ul>
+  </nav>
+  <main>
+    <h1>Irányítószámok REST API Dokumentáció</h1>
+    <p>Laravel Sanctum alapú REST API megyék és települések kezelésére.</p>
+    <div class="base-url">Base URL: <strong>http://127.0.0.1:8000/api</strong></div>
+
+    <section id="auth">
+      <h2>Hitelesítés (Auth)</h2>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method post">POST</span><span class="path">/login</span></div>
+        <p>Felhasználó bejelentkeztetése és Bearer token generálása.</p>
+        <table>
+          <tr><th>Mező</th><th>Típus</th><th>Leírás</th></tr>
+          <tr><td>email</td><td>String</td><td>Regisztrált email cím (pl. user@example.com)</td></tr>
+          <tr><td>password</td><td>String</td><td>Jelszó (pl. 12345678)</td></tr>
+        </table>
+        <pre>{ "user": { "id": 1, "name": "user", "email": "user@example.com" }, "token": "1|..." }</pre>
+      </div>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method post">POST</span><span class="path">/logout</span><span class="auth-badge">Bearer Token szükséges</span></div>
+        <p>Aktív hozzáférési token érvénytelenítése.</p>
+        <pre>{ "message": "Logged out" }</pre>
+      </div>
+    </section>
+
+    <section id="counties">
+      <h2>Megyék (Counties)</h2>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method get">GET</span><span class="path">/counties</span></div>
+        <p>Összes megye listázása, opcionális név szerinti kereséssel.</p>
+        <table>
+          <tr><th>Query paraméter</th><th>Típus</th><th>Leírás</th></tr>
+          <tr><td>search (opcionális)</td><td>String</td><td>Keresés megye nevére</td></tr>
+        </table>
+      </div>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method get">GET</span><span class="path">/counties/{id}</span></div>
+        <p>Egy adott megye és a hozzá tartozó települések lekérdezése.</p>
+      </div>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method post">POST</span><span class="path">/counties</span><span class="auth-badge">Bearer Token szükséges</span></div>
+        <p>Új megye létrehozása.</p>
+        <pre>{ "name": "Pest" }</pre>
+      </div>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method put">PUT</span><span class="path">/counties/{id}</span><span class="auth-badge">Bearer Token szükséges</span></div>
+        <p>Meglévő megye nevének módosítása.</p>
+        <pre>{ "name": "Pest vármegye" }</pre>
+      </div>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method delete">DELETE</span><span class="path">/counties/{id}</span><span class="auth-badge">Bearer Token szükséges</span></div>
+        <p>Megye törlése azonosító alapján.</p>
+      </div>
+    </section>
+
+    <section id="cities">
+      <h2>Települések (Cities)</h2>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method get">GET</span><span class="path">/cities</span></div>
+        <p>Települések listázása, keresése és megye szerinti szűrése.</p>
+        <table>
+          <tr><th>Query paraméter</th><th>Típus</th><th>Leírás</th></tr>
+          <tr><td>search (opcionális)</td><td>String</td><td>Keresés irányítószámra vagy településnévre</td></tr>
+          <tr><td>county_id (opcionális)</td><td>Number</td><td>Szűrés megye azonosítóra</td></tr>
+        </table>
+      </div>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method get">GET</span><span class="path">/cities/{id}</span></div>
+        <p>Egy adott település részletes adatainak lekérdezése.</p>
+      </div>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method post">POST</span><span class="path">/cities</span><span class="auth-badge">Bearer Token szükséges</span></div>
+        <p>Új település létrehozása.</p>
+        <pre>{ "zip": "2623", "name": "Kismaros", "county_id": 1 }</pre>
+      </div>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method put">PUT</span><span class="path">/cities/{id}</span><span class="auth-badge">Bearer Token szükséges</span></div>
+        <p>Meglévő település adatainak módosítása.</p>
+        <pre>{ "zip": "2623", "name": "Kismaros", "county_id": 1 }</pre>
+      </div>
+      <div class="endpoint">
+        <div class="ep-header"><span class="method delete">DELETE</span><span class="path">/cities/{id}</span><span class="auth-badge">Bearer Token szükséges</span></div>
+        <p>Település törlése azonosító alapján.</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
